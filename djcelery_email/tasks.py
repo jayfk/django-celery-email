@@ -1,10 +1,7 @@
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection
 
-try:
-    from celery import shared_task
-except ImportError:
-    from celery.decorators import task as shared_task
+from celery.task import task
 
 # Make sure our AppConf is loaded properly.
 import djcelery_email.conf  # noqa
@@ -18,7 +15,7 @@ TASK_CONFIG = {'name': 'djcelery_email_send_multiple', 'ignore_result': True}
 TASK_CONFIG.update(settings.CELERY_EMAIL_TASK_CONFIG)
 
 
-@shared_task
+@task()
 def send_emails(messages, backend_kwargs=None, **kwargs):
     # backward compat: handle **kwargs and missing backend_kwargs
     combined_kwargs = {}
