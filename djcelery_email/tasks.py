@@ -18,7 +18,7 @@ TASK_CONFIG = {'name': 'djcelery_email_send_multiple', 'ignore_result': True}
 TASK_CONFIG.update(settings.CELERY_EMAIL_TASK_CONFIG)
 
 
-@shared_task()
+@shared_task
 def send_emails(messages, backend_kwargs=None, **kwargs):
     # backward compat: handle **kwargs and missing backend_kwargs
     combined_kwargs = {}
